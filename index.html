@@ -8,8 +8,6 @@
 <style>
 :root{--bg:#eef1fb;--surface:#fff;--ink:#16204a;--muted:#6a7494;--line:#e0e5f4;--accent:#4f46e5;--accent2:#0ea5a4;--soft:#eceaff;--warn:#e0467c;--ok:#15a06b;--cl:38%;--sh:0 8px 28px rgba(40,50,110,.08);
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c1022;--surface:#161b37;--ink:#e8ebff;--muted:#8c95bd;--line:#252c52;--accent:#8b85ff;--accent2:#3dd6d0;--soft:#232957;--warn:#ff6b9a;--ok:#3ddc97;--cl:72%;--sh:0 8px 28px rgba(0,0,0,.35);color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#0c1022;--surface:#161b37;--ink:#e8ebff;--muted:#8c95bd;--line:#252c52;--accent:#8b85ff;--accent2:#3dd6d0;--soft:#232957;--warn:#ff6b9a;--ok:#3ddc97;--cl:72%;--sh:0 8px 28px rgba(0,0,0,.35);color-scheme:dark}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:Figtree,system-ui,sans-serif;font-size:15px;line-height:1.5}
@@ -31,7 +29,6 @@ button,input,textarea,select{font:inherit;color:inherit}
 .pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);border-radius:99px;padding:4px 11px;font-size:12.5px;color:#fff}
 .pill i{width:7px;height:7px;border-radius:50%;background:#9dffcf}
 .pill.off i{background:#ffd27a}
-.hbtn{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);color:#fff;border-radius:10px;padding:5px 12px;cursor:pointer}
 .hstats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:20px}
 @media(max-width:640px){.hstats{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:27px}}
 .hs{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:11px 13px}
@@ -54,7 +51,8 @@ button,input,textarea,select{font:inherit;color:inherit}
 .day.out{opacity:.4}
 .day.today{box-shadow:inset 0 0 0 2px var(--accent2)}
 .day.sel{background:var(--accent);color:#fff;border-color:var(--accent)}
-.day.cd::after{content:"";position:absolute;top:5px;right:6px;width:7px;height:7px;border-radius:50%;background:var(--warn)}
+.day.cd::after{content:"";position:absolute;top:4px;right:5px;width:8px;height:8px;border-radius:50%;background:var(--warn);box-shadow:0 0 0 2px var(--surface)}
+.day.sel.cd::after{box-shadow:0 0 0 2px var(--accent)}
 .day .n{font-weight:600}
 .bar{width:70%;height:5px;border-radius:3px;background:var(--line);overflow:hidden}
 .day.sel .bar{background:rgba(255,255,255,.35)}
@@ -96,8 +94,20 @@ textarea{width:100%;min-height:78px;resize:vertical;border:1px solid var(--line)
 .stk{display:flex;flex-direction:column-reverse;width:100%;max-width:34px;border-radius:7px 7px 3px 3px;overflow:hidden;min-height:3px;background:var(--line)}
 .stk i{display:block}
 .key{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
-.cd-big{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-radius:16px;padding:16px;margin-bottom:12px}
-.cd-big b{font-family:'Bricolage Grotesque',sans-serif;font-size:48px;line-height:1;display:block}
+
+/* ---------- countdown (highlighted) ---------- */
+.card.cd-card{box-shadow:0 0 0 2px hsl(243 75% 60% / .3),var(--sh)}
+.cd-big{position:relative;overflow:hidden;background:linear-gradient(135deg,#4f46e5,#0ea5a4);color:#fff;border-radius:20px;padding:16px 18px 18px;margin-bottom:14px;text-align:center;box-shadow:0 14px 32px hsl(243 75% 55% / .3);transition:background .25s,box-shadow .25s}
+.cd-big::before{content:"";position:absolute;right:-50px;top:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.12)}
+.cd-big::after{content:"";position:absolute;left:-45px;bottom:-75px;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.08)}
+.cd-big>*{position:relative;z-index:1}
+.cd-cap{display:inline-block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;opacity:.92}
+.cd-big b{font-family:'Bricolage Grotesque',sans-serif;display:block;font-size:clamp(62px,17vw,88px);line-height:.92;letter-spacing:-.04em;margin:8px 0 0;text-shadow:0 8px 26px rgba(0,0,0,.22)}
+.cd-u{display:block;font-weight:600;font-size:13.5px;letter-spacing:.05em;margin-top:2px;opacity:.95}
+.cd-name{margin-top:9px;font-size:13px;opacity:.9}
+.cd-big.near{background:linear-gradient(135deg,#e0467c,#ff8a5b);box-shadow:0 14px 32px hsl(340 70% 55% / .34)}
+.cd-big.past{background:linear-gradient(135deg,#7c86a8,#9aa3c0);box-shadow:0 10px 24px rgba(40,50,110,.18)}
+
 .cd-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
 .cd-row input{flex:1;min-width:120px;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:8px 10px}
 .cdi b{font-family:'Bricolage Grotesque',sans-serif;color:var(--accent);text-align:right}
@@ -126,7 +136,7 @@ textarea{width:100%;min-height:78px;resize:vertical;border:1px solid var(--line)
 <section class="hero">
   <div class="hrow">
     <div><h1 id="greet">Study Tracker</h1><div class="sub" id="todayLbl"></div></div>
-    <div class="hrow" style="gap:8px;align-items:center"><span class="pill off" id="sync"><i></i><span>Saved on this device</span></span><button class="hbtn" id="theme">Dark mode</button></div>
+    <div class="hrow" style="gap:8px;align-items:center"><span class="pill off" id="sync"><i></i><span>Saved on this device</span></span></div>
   </div>
   <div class="hstats" id="hstats"></div>
 </section>
@@ -157,6 +167,22 @@ textarea{width:100%;min-height:78px;resize:vertical;border:1px solid var(--line)
  </div>
 
  <div class="col">
+  <section class="card cd-card">
+    <div class="top" style="margin-bottom:10px"><h2>Days left</h2><div class="sub" id="cdHint"></div></div>
+    <div class="cd-big" id="cdBig">
+      <span class="cd-cap" id="cdCap">Countdown</span>
+      <b id="cdN">–</b>
+      <span class="cd-u" id="cdU">no date yet</span>
+      <div class="cd-name" id="cdT">Add an exam or deadline below</div>
+    </div>
+    <div class="cd-row">
+      <input id="cdName" placeholder="Label (e.g. Final exam)" aria-label="Countdown label">
+      <input id="cdDate" type="date" aria-label="Countdown date">
+      <button class="btn pri" id="cdAdd">Save date</button>
+    </div>
+    <ul id="cdList"></ul>
+  </section>
+
   <section class="card">
     <div class="top"><div><h2 id="dLbl"></h2><div class="sub" id="dSub"></div></div><div class="ring" id="dRing"><b></b></div></div>
     <form class="add" id="dForm"><input id="dIn" placeholder="Add a target for this day" aria-label="Daily target"><select id="dSub2" aria-label="Subject"></select><button class="btn pri">Add</button></form>
@@ -164,17 +190,6 @@ textarea{width:100%;min-height:78px;resize:vertical;border:1px solid var(--line)
     <div style="margin-top:10px"><button class="btn sm" id="carry">Move unfinished to next day</button></div>
     <div id="logs"></div>
     <div class="sub" id="dTot" style="margin-top:10px"></div>
-  </section>
-
-  <section class="card">
-    <h2 style="margin-bottom:12px">Days left</h2>
-    <div class="cd-big"><b id="cdN">–</b><span id="cdT">Pick a date below</span></div>
-    <div class="cd-row">
-      <input id="cdName" placeholder="Label (e.g. Final exam)" aria-label="Countdown label">
-      <input id="cdDate" type="date" aria-label="Countdown date">
-      <button class="btn pri" id="cdAdd">Save date</button>
-    </div>
-    <ul id="cdList"></ul>
   </section>
  </div>
 </div>
@@ -322,13 +337,32 @@ function renderWeek(){
   $('key').innerHTML=F==='A'?SK.map(chip).join(''):chip(F);
   $('wList').innerHTML=ws.length?itemHtml(ws):'<div class="empty">No weekly targets yet. Set the big goals for this week.</div>';
 }
+
+/* ---------- countdown ---------- */
 function renderCd(){
   const list=[...S.cds].sort((a,b)=>a.date<b.date?-1:1);
   const pv=$('cdDate').value,next=list.find(c=>diff(c.date)>=0);
-  const set=(k,label)=>{const n=diff(k);$('cdN').textContent=Math.abs(n);$('cdT').textContent=' '+dueText(n)+(n>0?' (about '+Math.floor(n/7)+' wk '+n%7+' d)':'')+' · '+label};
-  if(pv)set(pv,fmt(parse(pv),{day:'numeric',month:'short',year:'numeric'}));
-  else if(next)set(next.date,next.name);
-  else{$('cdN').textContent='–';$('cdT').textContent='Pick a date below'}
+  const big=$('cdBig');
+  const show=(k,label)=>{
+    const n=diff(k);
+    big.classList.toggle('near',n>=0&&n<=7);
+    big.classList.toggle('past',n<0);
+    $('cdCap').textContent=label;
+    $('cdN').textContent=Math.abs(n);
+    $('cdU').textContent=n>0?'days left':n===0?'that’s today':'days ago';
+    $('cdT').textContent=fmt(parse(k),{weekday:'short',day:'numeric',month:'long',year:'numeric'})+(n>7?' · about '+Math.floor(n/7)+' wk '+n%7+' d away':'');
+    $('cdHint').textContent=pv?'Preview':'Next up';
+  };
+  if(pv)show(pv,$('cdName').value.trim()||'Selected date');
+  else if(next)show(next.date,next.name);
+  else{
+    big.classList.remove('near','past');
+    $('cdCap').textContent='Countdown';
+    $('cdN').textContent='–';
+    $('cdU').textContent='no date yet';
+    $('cdT').textContent='Add an exam or deadline below';
+    $('cdHint').textContent='';
+  }
   $('cdList').innerHTML=list.length?list.map(c=>{const n=diff(c.date);return `<li class="cdi ${n<0?'past':''}"><span class="t">${esc(c.name)}<br><small class="sub">${fmt(parse(c.date),{day:'numeric',month:'short',year:'numeric'})}</small></span><b>${n===0?'Today':Math.abs(n)+' '+dueText(n)}</b><button class="x" data-cd="${c.id}" aria-label="Delete date">×</button></li>`}).join(''):'<div class="empty">Save an exam or deadline to track the days left.</div>';
 }
 
@@ -384,9 +418,9 @@ $('logs').oninput=e=>{const k=e.target.dataset.k;if(!k)return;const d=day(sel);
   if(e.target.tagName==='TEXTAREA')d.n[k]=e.target.value;else d.h[k]=Math.max(0,+e.target.value||0);
   renderCal();renderWeek();renderHero();updTot();save()};
 $('cdDate').oninput=renderCd;
+$('cdName').oninput=renderCd;
 $('cdAdd').onclick=()=>{const d=$('cdDate').value;if(!d)return;S.cds.push({id:Date.now(),name:$('cdName').value.trim()||'Selected date',date:d});$('cdName').value='';$('cdDate').value='';all()};
 $('cdList').onclick=e=>{const id=e.target.dataset.cd;if(id){S.cds=S.cds.filter(c=>String(c.id)!==id);all()}};
-$('theme').onclick=()=>{const r=document.documentElement,dark=getComputedStyle(r).colorScheme==='dark';r.dataset.theme=dark?'light':'dark';$('theme').textContent=dark?'Dark mode':'Light mode'};
 
 renderAll();initSync();
 </script>
